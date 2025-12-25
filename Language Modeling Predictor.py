@@ -1,5 +1,5 @@
 """
-15-110 Hw6 - Language Modeling Project
+15-110 Hw6 - Language Modeling Predictor
 Name: Adrian Lee
 """
 
@@ -489,4 +489,5 @@ if __name__ == "__main__":
 
     print("\n" + "#"*15 + " WEEK 3 OUTPUT " + "#" * 15 + "\n")
     test.runWeek3()
+
 
