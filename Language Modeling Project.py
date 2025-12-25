@@ -1,12 +1,11 @@
 """
 15-110 Hw6 - Language Modeling Project
 Name: Adrian Lee
-AndrewID: adrianle
 """
 
 import hw6_language_tests as test
 
-project = "Language" # don't edit this
+project = "Language"
 
 ### WEEK 1 ###
 
@@ -16,15 +15,15 @@ loadBook(filename)
 Parameters: str
 Returns: 2D list of strs
 '''
-def loadBook(filename): #open file, split function prob needed
+def loadBook(filename):
     list1 = [] 
     f = open(filename, "r")
     for text in f:
-            line = text.strip().split() #splits line by space
+            line = text.strip().split()
             if line:
-                list1.append(line) #else statement needed?
-    return list1 #f.close doesn't work-> future issue?
-
+                list1.append(line)
+    return list1
+    
 '''
 getCorpusLength(corpus)
 #2 [Check6-1]
@@ -34,7 +33,7 @@ Returns: int
 corpus = [ ["hello", "world"],
 ["hello", "world", "again"] ]
 
-def getCorpusLength(corpus): #len function
+def getCorpusLength(corpus):
     words = 0
     for unigram in corpus:
         words += len(unigram)
@@ -47,10 +46,10 @@ buildVocabulary(corpus)
 Parameters: 2D list of strs
 Returns: list of strs
 '''
-def buildVocabulary(corpus): #iterate and index-> will probably use append function
+def buildVocabulary(corpus):
     list2 = []
     for new in corpus:
-        for old in new: #double for loop so it iterates through 2D list in corpus
+        for old in new:
             if old not in list2: 
                 list2.append(old)
     return list2
@@ -61,12 +60,11 @@ makeStartCorpus(corpus)
 Parameters: 2D list of strs
 Returns: 2D list of strs
 '''
-def makeStartCorpus(corpus): #indexing for this one
+def makeStartCorpus(corpus):
     list3 = []
     for new in corpus:
         if len(new) > 0:
-            list3.append([new[0]])#list3.append([new2[0]])
-            #list3.append([new2[1][0]])-> Why this doesn't work?
+            list3.append([new[0]])
     return list3
 
 '''
@@ -75,14 +73,14 @@ countUnigrams(corpus)
 Parameters: 2D list of strs
 Returns: dict mapping strs to ints
 '''
-def countUnigrams(corpus): #dictionary, checks length of corpus and maybe a double loop?
+def countUnigrams(corpus):
     list4 = {}
     for variable in corpus:
-        for variable2 in variable: #double for loop ensures that it will loop through each word
+        for variable2 in variable:
             if variable2 in list4:
-                list4[variable2] = list4[variable2] + 1 #will add count by 1
+                list4[variable2] = list4[variable2] + 1
             else:
-                list4[variable2] = 1 #if the variable is not in the list, it adds it as a new word with a count of 1
+                list4[variable2] = 1
     return list4
 
 
@@ -93,13 +91,13 @@ Parameters: 2D list of strs
 Returns: dict mapping strs to (dicts mapping strs to ints)
 '''
 def countBigrams(corpus):
-    name = {} #step 1
+    name = {}
     for sentence in corpus:
-        for i in range(len(sentence)- 1): #step 2
-            variablename= (sentence[i], sentence[i + 1]) #step 3
+        for i in range(len(sentence)- 1):
+            variablename= (sentence[i], sentence[i + 1])
             if variablename[0] not in name:
-                name[variablename[0]] = {} #step 4
-            if variablename[1] not in name[variablename[0]]: #step 5
+                name[variablename[0]] = {}
+            if variablename[1] not in name[variablename[0]]:
                 name[variablename[0]][variablename[1]] = 1
             else:
                 name[variablename[0]][variablename[1]] += 1
@@ -196,16 +194,16 @@ Parameters: dict mapping strs to ints ; dict mapping strs to (dicts mapping strs
 Returns: dict mapping strs to (dicts mapping strs to (lists of values))
 '''
 def buildBigramProbs(unigramCounts, bigramCounts):
-    step1 = {} #new dictionary
-    for prevWord in bigramCounts: #iteratres through each word (step 2)
-        keys = [] #one for the words (keys) in bigramCounts
-        prob = [] #one for the probabiities of those words
-        for variable in bigramCounts[prevWord]: #step 2c
+    step1 = {}
+    for prevWord in bigramCounts:
+        keys = []
+        prob = []
+        for variable in bigramCounts[prevWord]:
             keys.append(variable)
-            prob.append(bigramCounts[prevWord][variable] / unigramCounts[prevWord]) #note 1
-        temp = {"words": keys, "probs": prob} #step 2d
-        step1[prevWord] = temp #step 2e
-    return step1 #step 3
+            prob.append(bigramCounts[prevWord][variable] / unigramCounts[prevWord])
+        temp = {"words": keys, "probs": prob}
+        step1[prevWord] = temp
+    return step1
 
 '''
 getTopWords(count, words, probs, ignoreList)
@@ -241,7 +239,7 @@ def getTopWords(count, words, probs, ignoreList):
             highprob[words[index]] = maxProb
         probs.pop(index)
         words.pop(index)
-    return highprob''' ##This works within Thonny, but not in the testcases within Gradescope 
+    return highprob'''
 
 
 '''
@@ -254,9 +252,9 @@ from random import choices
 
 def generateTextFromUnigrams(count, words, probs):
     string = ""
-    for i in range(count): #
-        function = choices(words, weights=probs)[0] #indexes first element of that list
-        string = string + function + " " #or the spaces
+    for i in range(count): 
+        function = choices(words, weights=probs)[0]
+        string = string + function + " "
     return string.strip()
 
 '''
@@ -270,13 +268,13 @@ from random import choices
 def generateTextFromBigrams(count, startWords, startWordProbs, bigramProbs):
     string = []
     for i in range(count):
-        if not string or string[-1] in ".!?": #nothing has been added or last word added was punctuation
-            function1 = choices(startWords, weights=startWordProbs) #choices function 
-            string.append(function1[0]) #appends to string first word 
+        if not string or string[-1] in ".!?":
+            function1 = choices(startWords, weights=startWordProbs)
+            string.append(function1[0])
         else:
             function2 = choices(bigramProbs[string[-1]]["words"], weights=bigramProbs[string[-1]]["probs"]) 
             string.append(function2[0])
-    last = " ".join(string) #adds spaces
+    last = " ".join(string)
     return last
 
  
@@ -295,10 +293,10 @@ Parameters: 2D list of strs
 Returns: None
 '''
 def graphTop50Words(corpus):
-    length = getCorpusLength(corpus) #Check6-1 Q2
-    vocab = buildVocabulary(corpus) #Check6-1 Q3
-    unigrams = countUnigrams(corpus) #Check6-1 Q5
-    unigramprob = buildUnigramProbs(vocab, unigrams, length) #Check6-1 Q1
+    length = getCorpusLength(corpus)
+    vocab = buildVocabulary(corpus)
+    unigrams = countUnigrams(corpus)
+    unigramprob = buildUnigramProbs(vocab, unigrams, length)
     common = getTopWords(50, vocab, unigramprob, ignore)
     barPlot(common, "Probability of the top 50 Most Common Words")
     return
@@ -328,7 +326,7 @@ Parameters: 2D list of strs ; str
 Returns: None
 '''
 def graphTopNextWords(corpus, word):
-    forunigrams = countUnigrams(corpus) #need both unigram counts and bigram counts as the arguments for buildBigramProbs
+    forunigrams = countUnigrams(corpus)
     forbigrams = countBigrams(corpus)
     function1 = buildBigramProbs(forunigrams, forbigrams) 
     x = function1[word]["words"]
@@ -345,7 +343,6 @@ Parameters: 2D list of strs ; 2D list of strs ; int
 Returns: dict mapping strs to (lists of values)
 '''
 def setupData(corpus1, corpus2, topWordCount):
-#previousfunctions
     vocabforcorp1 = buildVocabulary(corpus1)
     vocabforcorp2 = buildVocabulary(corpus2)
     uniforcorp1 = countUnigrams(corpus1)
@@ -402,9 +399,8 @@ def graphTopWordsInScatterplot(corpus1, corpus2, numWords, title):
     chart2 = setupChartData(corpus1,corpus2,numWords)
     scatterPlot(chart2["corpus1Prob"], chart2["corpus2Prob"],chart2["topWords"],title)
     return
-##assert topWords in result 
 
-### WEEK 3 PROVIDED CODE ###
+### WEEK 3 CODE ###
 
 """
 Expects a dictionary of words as keys with probabilities as values, and a title
@@ -435,7 +431,7 @@ it to graph two categories of probabilities side by side to look at the differen
 def sideBySideBarPlots(xValues, values1, values2, category1, category2, title):
     import matplotlib.pyplot as plt
 
-    w = 0.35  # the width of the bars
+    w = 0.35
 
     plt.bar(xValues, values1, width=-w, align='edge', label=category1)
     plt.bar(xValues, values2, width= w, align='edge', label=category2)
@@ -468,8 +464,6 @@ def scatterPlot(xs, ys, labels, title):
     plt.title(title)
     plt.xlim(0, 0.02)
     plt.ylim(0, 0.02)
-
-    # a bit of advanced code to draw a y=x line
     ax.plot([0, 1], [0, 1], color='black', transform=ax.transAxes)
 
     plt.show()
@@ -495,3 +489,4 @@ if __name__ == "__main__":
 
     print("\n" + "#"*15 + " WEEK 3 OUTPUT " + "#" * 15 + "\n")
     test.runWeek3()
+
