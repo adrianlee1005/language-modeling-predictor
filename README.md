@@ -10,9 +10,15 @@ Compared vocabulary usage and generated sample text using probability distributi
 - Finds high-frequency words and compares corpora
 - Generates new text samples from learned distributions
 - Visualizes vocabulary patterns
+  
+📊 Figures and tables are available in the `figures/` directory.
 
 ## Tech Stack
-Python, NumPy, Matplotlib
+- **Language:** Python  
+- **Libraries:** NumPy, Matplotlib  
+- **Core Concepts:** probabilistic language modeling, text preprocessing, frequency analysis  
+- **Models:** uniform, unigram, and bigram language models  
+- **Methods:** tokenization, n-gram counting, probability estimation, text generation, data visualization
 
 ## How to run
 ```bash
